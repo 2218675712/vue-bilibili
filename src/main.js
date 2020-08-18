@@ -5,6 +5,9 @@ import store from './store'
 // 引入vant组件
 import Vant from 'vant'
 import 'vant/lib/index.css'
+// 引入axios
+import http from "../http";
+Vue.prototype.$http=http
 
 Vue.use(Vant)
 

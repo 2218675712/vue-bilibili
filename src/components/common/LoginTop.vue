@@ -1,8 +1,10 @@
 <template>
   <div class="LoginTop">
-    <div>1</div>
+    <div></div>
     <div>{{ middleTop }}</div>
-    <div>1</div>
+    <div class="right">
+      <slot name="right"></slot>
+    </div>
   </div>
 </template>
 
@@ -25,6 +27,10 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 16px;
+
+  }
+  .right div{
+    font-size: 12px;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="btnparent">
+  <div class="btnparent" @click="registerClick">
     <div class="loginBtn">{{ btntext }}</div>
   </div>
 </template>
@@ -7,7 +7,15 @@
 <script>
 export default {
   name: "LoginBtn",
-  props:['btntext']
+  props:['btntext'],
+  methods:{
+    /**
+     * 点击事件,让父元素发送
+     */
+    registerClick(){
+      this.$emit('registerSubmit')
+    }
+  }
 }
 </script>
 

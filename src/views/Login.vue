@@ -1,19 +1,13 @@
 <template>
-  <div class="register">
-    <login-top middle-top="注册bilibili">
-      <div slot="right" @click="$router.push('/login')">
-        登录
+  <div class="login">
+    <login-top middle-top="登录bilibili">
+      <div slot="right" @click="$router.push('/register')">
+        注册
       </div>
     </login-top>
     <login-text
-      label="姓名"
-      style="margin: 15px 0"
-      placeholder="请输入姓名"
-      rule="^.{6,16}$"
-      @inputChange="res=>model.name=res"
-    ></login-text>
-    <login-text
       label="账号"
+      style="margin: 15px 0"
       placeholder="请输入账号"
       rule="^.{6,16}$"
       @inputChange="res=>model.username=res"
@@ -25,22 +19,21 @@
       rule="^.{6,16}$"
       @inputChange="res=>model.password=res"
     ></login-text>
-    <login-btn btntext="注册" @registerSubmit="registerSubmit"></login-btn>
+    <login-btn btntext="登录" @registerSubmit="registerSubmit"></login-btn>
   </div>
 </template>
 
 <script>
-import LoginTop from '@/components/common/LoginTop'
-import LoginText from '@/components/common/LoginText'
 import LoginBtn from "@/components/common/LoginBtn";
+import LoginText from "@/components/common/LoginText";
+import LoginTop from "@/components/common/LoginTop";
 import {Toast} from "vant";
 
 export default {
-  name: 'register',
+  name: "Login",
   data() {
     return {
       model: {
-        name: '',
         username: '',
         password: ''
       }
@@ -54,8 +47,8 @@ export default {
   methods: {
     async registerSubmit() {
       let rule = /^.{6,16}$/
-      if (rule.test(this.model.name) && rule.test(this.model.username) && rule.test(this.model.password)) {
-        const res = await this.$http.post('/register', this.model)
+      if (rule.test(this.model.username) && rule.test(this.model.password)) {
+        const res = await this.$http.post('/login', this.model)
         Toast(res.data.msg)
       } else {
         Toast('格式不正确,请检查')

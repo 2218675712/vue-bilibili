@@ -19,7 +19,7 @@
             <span class="user_text">获赞</span>
           </p>
         </div>
-        <div>
+        <div @click="$router.push('/edit')">
           <div class="user_editBtn">
             编辑资料
           </div>
@@ -27,15 +27,15 @@
       </div>
     </div>
     <div>
-      <h2>52122725084_bili</h2>
+      <h2>{{ userinfo.name }}</h2>
       <p>这个人很神秘，什么都没有写</p>
     </div>
   </div>
 </template>
-
 <script>
 export default {
-  name: "userDetail"
+  name: "userDetail",
+  props:['userinfo']
 }
 </script>
 

@@ -57,6 +57,11 @@ export default {
       if (rule.test(this.model.name) && rule.test(this.model.username) && rule.test(this.model.password)) {
         const res = await this.$http.post('/register', this.model)
         Toast(res.data.msg)
+        localStorage.setItem('id', res.data.id)
+        localStorage.setItem('token', res.data.objtoken)
+        setTimeout(() => {
+          this.$router.push('/userinfo')
+        }, 1000)
       } else {
         Toast('格式不正确,请检查')
       }

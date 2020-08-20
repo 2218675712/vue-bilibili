@@ -5,10 +5,20 @@ import Login from "@/views/Login";
 import userinfo from "@/views/userinfo";
 import {Toast} from "vant";
 import Edit from "@/views/Edit";
+import Home from "@/views/Home";
 
 Vue.use(VueRouter)
 
 const routes = [
+
+  {
+    path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
+    component: Home
+  },
   {
     path: '/register',
     component: register

@@ -1,7 +1,7 @@
 <template>
   <div class="editViews">
     <div style="margin-bottom: 12px;">
-      <nav-bar></nav-bar>
+      <nav-bar :userinfo="model"></nav-bar>
     </div>
     <div class="uploadFile">
       <van-uploader class="uploadImg" preview-size="100vw" :after-read="afterRead"/>
@@ -39,6 +39,7 @@
         <a href="javascript:">{{ model.user_desc }}</a>
       </template>
     </edit-banner>
+    <div class="editBack" @click="$router.back()">返回空间</div>
     <!--弹出框-->
     <van-dialog
       v-model="nameShow"
@@ -169,6 +170,17 @@ export default {
       position: absolute;
       opacity: 0;
     }
+  }
+
+  .editBack {
+    margin-top: 20px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #505050;
+    padding: 10px;
+    font-size: 14px;
   }
 }
 </style>

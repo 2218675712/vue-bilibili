@@ -2,7 +2,8 @@
   <div class="userdetail">
     <div>
       <div class="user_img">
-        <img src="@/assets/img/default_img.jpg" alt="">
+        <img v-if="userinfo.user_img" :src="userinfo.user_img" alt="">
+        <img v-else src="@/assets/img/default_img.jpg" alt="">
       </div>
       <div class="user_edit">
         <div>
@@ -28,7 +29,7 @@
     </div>
     <div>
       <h2>{{ userinfo.name }}</h2>
-      <p>这个人很神秘，什么都没有写</p>
+      <p>{{ userinfo.user_desc }}</p>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="userinfo">
-    <nav-bar></nav-bar>
+    <nav-bar :userinfo="modal"></nav-bar>
     <img src="@/assets/img/bannerTop_new.png" alt="" class="backImg">
     <user-detail :userinfo="modal"></user-detail>
   </div>

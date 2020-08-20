@@ -10,7 +10,8 @@
       </p>
     </div>
     <div>
-      <img src="@/assets/img/default_img.jpg" alt="">
+      <img v-if="userinfo.user_img" :src="userinfo.user_img" alt="" @click="$router.push('/edit')">
+      <img v-else src="@/assets/img/default_img.jpg" alt="">
      <p>下载app</p>
     </div>
   </div>
@@ -18,7 +19,8 @@
 
 <script>
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  props:['userinfo']
 }
 </script>
 

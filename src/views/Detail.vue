@@ -2,11 +2,21 @@
   <div>
     <div class="detailItem" @click="$router.push(`/detail/${detailItem.id}`)">
       <div class="imgParent">
-      <img :src="detailItem.img" alt="">
-        <span class="video">1233</span>
-        <span class="comment">66</span>
+        <img :src="detailItem.img" alt="">
+        <div class="bottomShadow">
+          <div class="left">
+            <span class="icon-play2"></span>
+            <span class="video">1233</span>
+          </div>
+          <div class="right">
+            <span class="icon-file-text"></span>
+            <span class="comment">66</span>
+          </div>
+
+
+        </div>
       </div>
-     <p> {{ detailItem.name }}</p>
+      <p> {{ detailItem.name }}</p>
     </div>
   </div>
 </template>
@@ -19,24 +29,45 @@ export default {
 </script>
 
 <style scoped lang="less">
-.imgParent{
+.imgParent {
   position: relative;
-  img{
+
+  img {
     width: 100%;
     height: 100%;
   }
-  .video{
-    position: absolute;
-    left: 5px;
-   bottom: 5px;
-  }
-  .comment{
-    position: absolute;
-    right: 5px;
-   bottom: 5px;
+
+  .bottomShadow {
+    width: 100%;
+    height: 16px;
+
+    .video, .comment, .icon-play2, .icon-file-text {
+      font-size: 12px;
+      color: white;
+      font-weight: 100;
+    }
+
+    .icon-play2, .icon-file-text {
+      padding-right: 5px;
+    }
+
+    .left {
+      position: absolute;
+      left: 5px;
+      bottom: 5px;
+    }
+
+    .right {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+    }
+
+    background: linear-gradient(0deg, rgba(0, 0, 0, .85), transparent);
   }
 }
-p{
+
+p {
   font-size: 12px;
 }
 </style>

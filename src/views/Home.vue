@@ -3,13 +3,20 @@
     <nav-bar :userinfo="model"></nav-bar>
     <van-tabs v-model="active" sticky swipeable>
       <van-tab v-for="(item,index) in category" :title="item.title" :key="index">
-        <div class="detailParent">
-          <detail
-            class="detailItem"
-            :detailItem="categoryItem"
-            v-for="(categoryItem,categoryIndex) in item.list"
-            :key="categoryIndex"></detail>
-        </div>
+        <van-list
+          v-model="item.loading"
+          :finished="item.finished"
+          finished-text="我也是有底线的"
+          @load="onLoad"
+          :immediate-check=false>
+          <div class="detailParent">
+            <detail
+              class="detailItem"
+              :detailItem="categoryItem"
+              v-for="(categoryItem,categoryIndex) in item.list"
+              :key="categoryIndex"></detail>
+          </div>
+        </van-list>
       </van-tab>
     </van-tabs>
   </div>
@@ -27,7 +34,9 @@ export default {
     return {
       model: [],
       category: [],
-      active: 0
+      active: 0,
+      list: [],
+
     }
   },
   methods: {
@@ -56,6 +65,9 @@ export default {
         item.list = []
         item.page = 0
         item.pagesize = 10
+        item.finished = false
+        item.loading = false
+
         return item
       })
       this.selectArticle()
@@ -72,7 +84,21 @@ export default {
           pagesize: categoryItem.pagesize
         }
       })
-      categoryItem.list = res.data
+      // 添加元数据到变量,加载新一轮数据
+      categoryItem.list.push(...res.data)
+      categoryItem.loading = false
+      // 判断是否加载完成全部内容
+      if (res.data.length < categoryItem.pagesize) {
+        categoryItem.finished = true
+      }
+    },
+    onLoad() {
+      const categoryItem = this.categoryItem()
+      setTimeout(() => {
+        categoryItem.page += 1
+        this.selectArticle()
+      }, 1000)
+
     },
     /**
      * 获取当前的tab内容

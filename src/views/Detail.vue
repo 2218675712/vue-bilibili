@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="$router.push(`/article/${detailItem.id}`)">
     <div class="detailItem" @click="$router.push(`/detail/${detailItem.id}`)">
       <div class="imgParent">
         <img :src="detailItem.img" alt="">
@@ -12,8 +12,6 @@
             <span class="icon-file-text"></span>
             <span class="comment">66</span>
           </div>
-
-
         </div>
       </div>
       <p> {{ detailItem.name }}</p>

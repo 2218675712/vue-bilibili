@@ -6,6 +6,7 @@ import userinfo from "@/views/userinfo";
 import {Toast} from "vant";
 import Edit from "@/views/Edit";
 import Home from "@/views/Home";
+import Article from "@/views/Article";
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,10 @@ const routes = [
     path: '/edit',
     component: Edit,
     meta: {istoken: true}
+  },
+  {
+    path: '/article/:id',
+    component: Article,
   }
 ]
 

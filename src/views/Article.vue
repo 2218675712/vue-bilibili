@@ -1,5 +1,5 @@
 <template>
-<!--  让有数据在渲染-->
+  <!--  让有数据在渲染-->
   <div v-if="model">
     <nav-bar :userinfo="model.userinfo"></nav-bar>
     <div class="detailInfo">
@@ -33,30 +33,58 @@
         </div>
       </div>
     </div>
+    <div class="detailParent">
+      <detail
+        v-for="(item,index) in commendList"
+        :key="index"
+        :detail-item="item"
+        class="detailItem"></detail>
+    </div>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/common/NavBar";
+import Detail from "@/views/Detail";
 
 export default {
   name: "Article",
-  components: {NavBar},
+  components: {Detail, NavBar},
   data() {
     return {
-      model: null
+      model: null,
+      commendList: null
     }
   },
   methods: {
     /*
-    * 获取用户数据*/
+    * 获取用户数据
+    * */
     async articleItemData() {
       const res = await this.$http.get(`/article/${this.$route.params.id}`)
       this.model = res.data[0]
+    },
+    /**
+     * 推荐数据
+     * @returns {Promise<void>}
+     */
+    async commendData() {
+      const res = await this.$http.get('/commend')
+      this.commendList = res.data
     }
   },
   created() {
     this.articleItemData()
+    this.commendData()
+  },
+  watch: {
+    /**
+     * 监听路由变化重新渲染
+     */
+    $route() {
+      this.articleItemData()
+      this.commendData()
+    }
   }
 
 }
@@ -131,5 +159,18 @@ export default {
       }
     }
   }
+}
+
+.detailParent {
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  .detailItem {
+    margin: 5px 0;
+    width: 45%;
+  }
+
 }
 </style>

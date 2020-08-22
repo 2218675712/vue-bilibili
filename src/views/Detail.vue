@@ -1,6 +1,6 @@
 <template>
-  <div @click="$router.push(`/article/${detailItem.id}`)">
-    <div class="detailItem" @click="$router.push(`/detail/${detailItem.id}`)">
+  <div @click="pathPush">
+    <div class="detailItem" @click="pathPush">
       <div class="imgParent">
         <img :src="detailItem.img" alt="">
         <div class="bottomShadow">
@@ -22,7 +22,15 @@
 <script>
 export default {
   name: "Detail",
-  props: ['detailItem']
+  props: ['detailItem'],
+  methods: {
+    pathPush() {
+      // 不让跳转到相同路径
+      if (this.$route.path !== `/article/${this.detailItem.id}`) {
+        this.$router.push(`/article/${this.detailItem.id}`)
+      }
+    }
+  }
 }
 </script>
 

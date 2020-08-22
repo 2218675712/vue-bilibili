@@ -40,20 +40,24 @@
         :detail-item="item"
         class="detailItem"></detail>
     </div>
+    <div>
+      <comment></comment>
+    </div>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/common/NavBar";
 import Detail from "@/views/Detail";
+import Comment from "@/components/article/commentTitle";
 
 export default {
   name: "Article",
-  components: {Detail, NavBar},
+  components: {Comment, Detail, NavBar},
   data() {
     return {
       model: null,
-      commendList: null
+      commendList: null,
     }
   },
   methods: {
@@ -166,6 +170,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  background-color: #fff;
 
   .detailItem {
     margin: 5px 0;

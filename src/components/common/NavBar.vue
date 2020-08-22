@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <div class="logo">
+    <div class="logo" @click="$router.push('/')">
       <img src="@/assets/img/logo.png" alt="">
     </div>
     <div>

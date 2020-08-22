@@ -1,5 +1,6 @@
 <template>
-  <div>
+<!--  让有数据在渲染-->
+  <div v-if="model">
     <nav-bar :userinfo="model.userinfo"></nav-bar>
     <div class="detailInfo">
       <div class="video">
@@ -43,7 +44,7 @@ export default {
   components: {NavBar},
   data() {
     return {
-      model: []
+      model: null
     }
   },
   methods: {

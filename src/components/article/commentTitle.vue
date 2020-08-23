@@ -17,28 +17,37 @@
 import {Toast} from "vant";
 
 export default {
-  name: "comment",
+  name: "commentTitle",
   data() {
     return {
       myUser: {}
     }
   },
   methods: {
+    /**
+     * 获取用户信息
+     * @returns {Promise<void>}
+     */
     async myUserInfo() {
       const res = await this.$http.get('/user/' + localStorage.getItem('id'))
       this.myUser = res.data[0]
     },
-    commentPublish(event) {
+    /**
+     * 发表评论
+     */
+    commentPublish() {
       if (!localStorage.getItem('id') && !localStorage.getItem('token')) {
         Toast.fail('请先登录');
         setTimeout(() => {
           this.$router.push('/login')
         }, 1000)
-        console.log(event)
       }
     }
   },
   created() {
+    /**
+     * 如果登录了在获取用户数据
+     */
     if (localStorage.getItem('token') && localStorage.getItem('id')) {
       this.myUserInfo()
     }
@@ -48,7 +57,7 @@ export default {
 
 <style scoped lang="less">
 .comment {
-  padding: 30px 10px;
+  padding: 30px 10px 0;
   background-color: #fff;
 
   .comment-title {

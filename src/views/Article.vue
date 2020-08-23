@@ -41,6 +41,7 @@
         class="detailItem"></detail>
     </div>
     <div>
+      <comment-title></comment-title>
       <comment></comment>
     </div>
   </div>
@@ -49,11 +50,13 @@
 <script>
 import NavBar from "@/components/common/NavBar";
 import Detail from "@/views/Detail";
-import Comment from "@/components/article/commentTitle";
+import CommentTitle from "@/components/article/commentTitle";
+import Comment from "@/components/article/comment";
+
 
 export default {
   name: "Article",
-  components: {Comment, Detail, NavBar},
+  components: {Comment, CommentTitle, Detail, NavBar},
   data() {
     return {
       model: null,

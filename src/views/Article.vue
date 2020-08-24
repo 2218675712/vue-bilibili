@@ -41,8 +41,16 @@
         class="detailItem"></detail>
     </div>
     <div>
-      <comment-title :dataLength="lens" @Postcomment="PostSuccess"></comment-title>
-      <comment @lengthselect="len=>lens=len"></comment>
+      <comment-title
+        :dataLength="lens"
+        @Postcomment="PostSuccess"
+        ref="commentIpt">
+      </comment-title>
+      <comment
+        @lengthselect="len=>lens=len"
+        @publishClick="PostChildClick"
+      ref="commentPublish">
+      </comment>
     </div>
   </div>
 </template>
@@ -106,8 +114,14 @@ export default {
       this.Postcom.comment_date = str
       this.Postcom.article_id = this.$route.params.id
       const result = await this.$http.post('/comment_post/' + localStorage.getItem('id'), this.Postcom)
-
-      console.log(result)
+      this.$refs.commentPublish.commentData()
+    },
+    /*
+    * 让鼠标获取焦点
+    * */
+    PostChildClick(id){
+      this.Postcom.parent_id=id
+      this.$refs.commentIpt.focusIpt()
     }
   },
   created() {

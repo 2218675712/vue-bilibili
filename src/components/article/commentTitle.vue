@@ -7,7 +7,7 @@
     <div class="commentMyInfo">
       <img v-if="myUser.user_img" :src="myUser.user_img" alt="">
       <img v-else src="@/assets/img/default_img.jpg" alt="">
-      <input type="text" v-model="comContent" placeholder="说点什么吧">
+      <input type="text" v-model="comContent" ref="Postipt" placeholder="说点什么吧">
       <button @click="commentPublish">发表</button>
     </div>
   </div>
@@ -47,6 +47,13 @@ export default {
       }
       // 让父组件发布评论
       this.$emit('Postcomment', this.comContent)
+      this.comContent = ''
+    },
+    /**
+     * 自动聚焦
+     * */
+    focusIpt() {
+      this.$refs.Postipt.focus()
     }
   },
   created() {

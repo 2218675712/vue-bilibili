@@ -12,12 +12,15 @@
       </div>
       <div class="commentContent">
         <div>
-          <p v-if="!temp">{{ item.comment_content }}</p>
-          <p v-else>
+          <div v-if="!temp">
+            {{ item.comment_content }}
+            <span class="publish">回复</span>
+          </div>
+          <div v-else>
             <span>回复</span>
-            <span style="color: #5090cc">{{ item.parent_user_info.name }}</span>
+            <span  style="color: #5090cc">{{ item.parent_user_info.name }}</span>
             <span>:{{ item.comment_content }}</span>
-          </p>
+          </div>
         </div>
         <comment-item :commentChild="item.child" :temp="true"></comment-item>
       </div>
@@ -56,8 +59,16 @@ export default {
       }
     }
 
-    .commentContent > div:nth-child(1) {
-      margin-left: 50px;
+    .commentContent {
+      position: relative;
+      > div:nth-child(1) {
+        margin-left: 50px;
+      }
+      .publish{
+        position: absolute;
+        right: 15px;
+        color: #fb7299;
+      }
     }
   }
 

@@ -13,7 +13,11 @@
       <div class="commentContent">
         <div>
           <p v-if="!temp">{{ item.comment_content }}</p>
-          <p v-else>回复{{ item.userinfo.name }}:{{ item.comment_content }}</p>
+          <p v-else>
+            <span>回复</span>
+            <span style="color: #5090cc">{{ item.parent_user_info.name }}</span>
+            <span>:{{ item.comment_content }}</span>
+          </p>
         </div>
         <comment-item :commentChild="item.child" :temp="true"></comment-item>
       </div>
@@ -46,6 +50,7 @@ export default {
         display: flex;
         flex: 1;
         justify-content: space-between;
+        align-items: center;
         color: #999999;
         margin-bottom: 5px;
       }

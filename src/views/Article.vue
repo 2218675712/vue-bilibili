@@ -41,8 +41,8 @@
         class="detailItem"></detail>
     </div>
     <div>
-      <comment-title></comment-title>
-      <comment></comment>
+      <comment-title :dataLength="lens" @Postcomment="PostSuccess"></comment-title>
+      <comment @lengthselect="len=>lens=len"></comment>
     </div>
   </div>
 </template>
@@ -61,6 +61,13 @@ export default {
     return {
       model: null,
       commendList: null,
+      lens: null,
+      Postcom: {
+        comment_content: '',
+        comment_date: '',
+        parent_id: null,
+        article_id:null
+      }
     }
   },
   methods: {
@@ -78,6 +85,29 @@ export default {
     async commendData() {
       const res = await this.$http.get('/commend')
       this.commendList = res.data
+    },
+
+    async PostSuccess(res) {
+      // 获取日期
+      const date = new Date()
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      if (m < 10) {
+        m = '0' + m
+      }
+      m = m.toString()
+      if (d < 10) {
+        d = '0' + d
+      }
+      d = d.toString()
+      let str = `${m}-${d}`
+
+      this.Postcom.comment_content = res
+      this.Postcom.comment_date = str
+      this.Postcom.article_id = this.$route.params.id
+      const result = await this.$http.post('/comment_post/' + localStorage.getItem('id'), this.Postcom)
+
+      console.log(result)
     }
   },
   created() {

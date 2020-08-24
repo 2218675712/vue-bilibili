@@ -43,6 +43,10 @@ export default {
      */
     async commentData() {
       const res = await this.$http.get('/comment/' + this.$route.params.id)
+      // 向父组件传递数据
+      if(res.data){
+        this.$emit('lengthselect',res.data.length)
+      }
       this.commentList = this.changeCommentData(res.data)
     },
     /**
@@ -99,7 +103,8 @@ export default {
 
       p {
         display: flex;
-        justify-content: space-between;
+        justify-content: left;
+        align-items: center;
         color: #999999;
         margin-bottom: 5px;
       }

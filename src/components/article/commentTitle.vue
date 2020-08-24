@@ -2,12 +2,12 @@
   <div class="comment">
     <p class="comment-title">
       <span>评论</span>
-      <span>(4070)</span>
+      <span>({{ dataLength }})</span>
     </p>
     <div class="commentMyInfo">
       <img v-if="myUser.user_img" :src="myUser.user_img" alt="">
       <img v-else src="@/assets/img/default_img.jpg" alt="">
-      <input type="text" placeholder="说点什么吧">
+      <input type="text" v-model="comContent" placeholder="说点什么吧">
       <button @click="commentPublish">发表</button>
     </div>
   </div>
@@ -18,9 +18,11 @@ import {Toast} from "vant";
 
 export default {
   name: "commentTitle",
+  props: ['dataLength'],
   data() {
     return {
-      myUser: {}
+      myUser: {},
+      comContent: ''
     }
   },
   methods: {
@@ -41,7 +43,10 @@ export default {
         setTimeout(() => {
           this.$router.push('/login')
         }, 1000)
+        return
       }
+      // 让父组件发布评论
+      this.$emit('Postcomment', this.comContent)
     }
   },
   created() {

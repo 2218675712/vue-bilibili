@@ -18,9 +18,9 @@
           <span>{{ model.userinfo.date }}</span>
         </div>
         <div>
-          <div>
-            <span class="icon-star-full"></span>
-            <span>收藏</span>
+          <div @click="collection">
+            <span class="icon-star-full" :class="{'activeColor':collectionActive}"></span>
+            <span :class="{'activeColor':collectionActive}">收藏</span>
           </div>
           <div>
             <span class="icon-box-add"></span>
@@ -60,6 +60,7 @@ import NavBar from "@/components/common/NavBar";
 import Detail from "@/views/Detail";
 import CommentTitle from "@/components/article/commentTitle";
 import Comment from "@/components/article/comment";
+import {Toast} from "vant";
 
 
 export default {
@@ -75,7 +76,8 @@ export default {
         comment_date: '',
         parent_id: null,
         article_id: null
-      }
+      },
+      collectionActive: null
     }
   },
   methods: {
@@ -116,8 +118,13 @@ export default {
       this.Postcom.comment_date = str
       this.Postcom.article_id = this.$route.params.id
       const result = await this.$http.post('/comment_post/' + localStorage.getItem('id'), this.Postcom)
+
       this.$refs.commentPublish.commentData()
       this.Postcom.parent_id = null
+      if (result.status === 200) {
+        Toast.success('评论发布成功')
+      }
+
     },
     /*
     * 让鼠标获取焦点
@@ -125,11 +132,39 @@ export default {
     PostChildClick(id) {
       this.Postcom.parent_id = id
       this.$refs.commentIpt.focusIpt()
+    },
+    /*
+    * 收藏文章
+    * */
+    async collection() {
+      const res = await this.$http.post('/collection/' + localStorage.getItem('id'), {article_id: this.$route.params.id})
+      if (res.data.msg == '收藏成功') {
+        this.collectionActive = true
+      } else {
+        this.collectionActive = false
+      }
+
+      Toast.success(res.data.msg)
+    },
+    /*
+    * 进入页面获取收藏*/
+    async collectionInit() {
+      if (localStorage.getItem('token') && localStorage.getItem('id')) {
+        const res = await this.$http.get('/collection/' + localStorage.getItem('id'), {
+          params: {
+            article_id: this.$route.params.id
+          }
+        })
+        this.collectionActive = res.data.success
+      }
+
+
     }
   },
   created() {
     this.articleItemData()
     this.commendData()
+    this.collectionInit()
   },
   watch: {
     /**
@@ -138,6 +173,7 @@ export default {
     $route() {
       this.articleItemData()
       this.commendData()
+      this.collectionInit()
     }
   }
 
@@ -210,6 +246,10 @@ export default {
         margin-right: 8px;
         vertical-align: middle;
         font-size: 11px;
+      }
+
+      .activeColor {
+        color: #fb7299 !important;
       }
     }
   }

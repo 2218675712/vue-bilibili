@@ -41,6 +41,7 @@ export default {
      */
     PostItemcomment(id) {
       this.$emit('postChild', id)
+      this.$emit('PostPublish',id)
     },
     /**
      * 三级以上评论

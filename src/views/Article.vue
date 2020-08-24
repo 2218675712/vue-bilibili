@@ -49,7 +49,7 @@
       <comment
         @lengthselect="len=>lens=len"
         @publishClick="PostChildClick"
-      ref="commentPublish">
+        ref="commentPublish">
       </comment>
     </div>
   </div>
@@ -74,7 +74,7 @@ export default {
         comment_content: '',
         comment_date: '',
         parent_id: null,
-        article_id:null
+        article_id: null
       }
     }
   },
@@ -94,7 +94,9 @@ export default {
       const res = await this.$http.get('/commend')
       this.commendList = res.data
     },
-
+    /*
+    * 发送评论
+    * */
     async PostSuccess(res) {
       // 获取日期
       const date = new Date()
@@ -115,12 +117,13 @@ export default {
       this.Postcom.article_id = this.$route.params.id
       const result = await this.$http.post('/comment_post/' + localStorage.getItem('id'), this.Postcom)
       this.$refs.commentPublish.commentData()
+      this.Postcom.parent_id = null
     },
     /*
     * 让鼠标获取焦点
     * */
-    PostChildClick(id){
-      this.Postcom.parent_id=id
+    PostChildClick(id) {
+      this.Postcom.parent_id = id
       this.$refs.commentIpt.focusIpt()
     }
   },

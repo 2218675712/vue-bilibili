@@ -14,15 +14,16 @@
         <div>
           <div v-if="!temp">
             {{ item.comment_content }}
-            <span class="publish">回复</span>
+            <span class="publish" @click="PostItemcomment(item.comment_id)">回复</span>
           </div>
           <div v-else>
             <span>回复</span>
-            <span  style="color: #5090cc">{{ item.parent_user_info.name }}</span>
+            <span style="color: #5090cc">{{ item.parent_user_info.name }}</span>
             <span>:{{ item.comment_content }}</span>
+            <span @click="PostItemcomment(item.comment_id)" class="publish">回复</span>
           </div>
         </div>
-        <comment-item :commentChild="item.child" :temp="true"></comment-item>
+        <comment-item @postChild="postChild" :commentChild="item.child" :temp="true"></comment-item>
       </div>
     </div>
   </div>
@@ -31,7 +32,25 @@
 <script>
 export default {
   name: "commentItem",
-  props: ['commentChild', 'temp']
+  props: ['commentChild', 'temp'],
+  methods: {
+    /**
+     * 二级评论
+     * @param id
+     * @constructor
+     */
+    PostItemcomment(id) {
+      this.$emit('postChild', id)
+    },
+    /**
+     * 三级以上评论
+     * @param id
+     */
+    postChild(id) {
+      this.PostItemcomment(id)
+      this.$emit('PostPublish',id)
+    }
+  }
 }
 </script>
 
@@ -61,10 +80,12 @@ export default {
 
     .commentContent {
       position: relative;
+
       > div:nth-child(1) {
         margin-left: 50px;
       }
-      .publish{
+
+      .publish {
         position: absolute;
         right: 15px;
         color: #fb7299;

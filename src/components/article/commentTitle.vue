@@ -47,6 +47,7 @@ export default {
       }
       // 让父组件发布评论
       this.$emit('Postcomment', this.comContent)
+      // 清空输入框
       this.comContent = ''
     },
     /**

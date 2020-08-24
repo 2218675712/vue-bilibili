@@ -19,7 +19,7 @@
         </div>
       </div>
       <div style="padding-left: 30px;">
-        <comment-item :commentChild="item.child"></comment-item>
+        <comment-item @PostPublish="publishClick" :commentChild="item.child"></comment-item>
       </div>
     </div>
 
@@ -45,8 +45,8 @@ export default {
     async commentData() {
       const res = await this.$http.get('/comment/' + this.$route.params.id)
       // 向父组件传递数据
-      if(res.data){
-        this.$emit('lengthselect',res.data.length)
+      if (res.data) {
+        this.$emit('lengthselect', res.data.length)
       }
       this.commentList = this.changeCommentData(res.data)
     },
@@ -64,10 +64,15 @@ export default {
         }
         return arr1
       }
+
       return fn(null)
     },
-    publishClick(id){
-      this.$emit('publishClick',id)
+    /**
+     * 向文章页传递事件
+     * @param id
+     */
+    publishClick(id) {
+      this.$emit('publishClick', id)
     }
 
   },
@@ -104,6 +109,7 @@ export default {
     .commentContent {
       flex: 1;
       position: relative;
+
       p {
         display: flex;
         justify-content: left;
@@ -116,7 +122,8 @@ export default {
         font-size: 13px;
         color: #212121;
       }
-      .publishs{
+
+      .publishs {
         position: absolute;
         right: 0;
         color: #fb7299;

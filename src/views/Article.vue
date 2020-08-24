@@ -18,13 +18,13 @@
           <span>{{ model.userinfo.date }}</span>
         </div>
         <div>
-          <div @click="collection">
+          <div @click="collectionClick">
             <span class="icon-star-full" :class="{'activeColor':collectionActive}"></span>
             <span :class="{'activeColor':collectionActive}">收藏</span>
           </div>
-          <div>
-            <span class="icon-box-add"></span>
-            <span>缓存</span>
+          <div @click="subscriptClick">
+            <span class="icon-bubble" :class="{'activeColor':subscriptionActive}"></span>
+            <span :class="{'activeColor':subscriptionActive}">关注</span>
           </div>
           <div>
             <span class="icon-redo2"></span>
@@ -77,7 +77,8 @@ export default {
         parent_id: null,
         article_id: null
       },
-      collectionActive: null
+      collectionActive: null,
+      subscriptionActive: null
     }
   },
   methods: {
@@ -87,6 +88,9 @@ export default {
     async articleItemData() {
       const res = await this.$http.get(`/article/${this.$route.params.id}`)
       this.model = res.data[0]
+      if (this.model) {
+        this.subscriptionInit()
+      }
     },
     /**
      * 推荐数据
@@ -134,11 +138,11 @@ export default {
       this.$refs.commentIpt.focusIpt()
     },
     /*
-    * 收藏文章
+    * 点击收藏文章
     * */
-    async collection() {
+    async collectionClick() {
       const res = await this.$http.post('/collection/' + localStorage.getItem('id'), {article_id: this.$route.params.id})
-      if (res.data.msg == '收藏成功') {
+      if (res.data.msg === '收藏成功') {
         this.collectionActive = true
       } else {
         this.collectionActive = false
@@ -147,7 +151,8 @@ export default {
       Toast.success(res.data.msg)
     },
     /*
-    * 进入页面获取收藏*/
+    * 进入页面获取收藏
+    * */
     async collectionInit() {
       if (localStorage.getItem('token') && localStorage.getItem('id')) {
         const res = await this.$http.get('/collection/' + localStorage.getItem('id'), {
@@ -157,8 +162,32 @@ export default {
         })
         this.collectionActive = res.data.success
       }
+    },
+    /*
+    * 点击关注用户
+    * */
+    async subscriptClick() {
+      const res = await this.$http.post('/sub_scription/' + localStorage.getItem('id'), {sub_id: this.model.userinfo.id})
+      if (res.data.msg === '关注成功') {
+        this.subscriptionActive = true
+      } else {
+        this.subscriptionActive = false
+      }
 
-
+      Toast.success(res.data.msg)
+    },
+    /*
+    * 进入页面获取关注
+    * */
+    async subscriptionInit() {
+      if (localStorage.getItem('token') && localStorage.getItem('id')) {
+        const res = await this.$http.get('/sub_scription/' + localStorage.getItem('id'), {
+          params: {
+            sub_id: this.model.userinfo.id
+          }
+        })
+        this.subscriptionActive = res.data.success
+      }
     }
   },
   created() {
@@ -174,6 +203,7 @@ export default {
       this.articleItemData()
       this.commendData()
       this.collectionInit()
+      this.subscriptionInit()
     }
   }
 

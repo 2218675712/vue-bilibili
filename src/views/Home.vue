@@ -1,25 +1,31 @@
 <template>
-  <div class="home">
+  <div class="home" v-if="category">
     <nav-bar :userinfo="model"></nav-bar>
-    <van-tabs v-model="active" sticky swipeable>
-      <van-tab v-for="(item,index) in category" :title="item.title" :key="index">
-        <van-list
-          v-model="item.loading"
-          :finished="item.finished"
-          finished-text="我也是有底线的"
-          @load="onLoad"
-          :immediate-check=false>
-          <div class="detailParent">
-            <detail
-              class="detailItem"
-              :detailItem="categoryItem"
-              v-for="(categoryItem,categoryIndex) in item.list"
-              :key="categoryIndex"></detail>
-          </div>
-        </van-list>
-      </van-tab>
-    </van-tabs>
+    <div class="categorytab">
+      <div class="category-ico" @click="$router.push('/editcategory')">
+        <van-icon name="setting-o"/>
+      </div>
+      <van-tabs v-model="active" sticky swipeable animated>
+        <van-tab v-for="(item,index) in category" :title="item.title" :key="index">
+          <van-list
+            v-model="item.loading"
+            :finished="item.finished"
+            finished-text="我也是有底线的"
+            @load="onLoad"
+            :immediate-check=false>
+            <div class="detailParent">
+              <detail
+                class="detailItem"
+                :detailItem="categoryItem"
+                v-for="(categoryItem,categoryIndex) in item.list"
+                :key="categoryIndex"></detail>
+            </div>
+          </van-list>
+        </van-tab>
+      </van-tabs>
+    </div>
   </div>
+
 
 </template>
 
@@ -53,6 +59,9 @@ export default {
      * @returns {Promise<void>}
      */
     async selectCategory() {
+      if (localStorage.getItem('newCat')){
+        return
+      }
       const res = await this.$http.get('/category')
       this.changeCategory(res.data)
     },
@@ -92,6 +101,9 @@ export default {
         categoryItem.finished = true
       }
     },
+    /*
+    * 加载数据
+    * */
     onLoad() {
       const categoryItem = this.categoryItem()
       setTimeout(() => {
@@ -120,6 +132,15 @@ export default {
     active() {
       return this.selectArticle()
     }
+  },
+  /**
+   *
+   */
+  activated() {
+    if (localStorage.getItem('newCat')){
+      let newCat=JSON.parse(localStorage.getItem('newCat'))
+      this.changeCategory(newCat)
+    }
   }
 }
 </script>
@@ -139,6 +160,17 @@ export default {
       width: 45%;
     }
 
+  }
+  .categorytab{
+    position: relative;
+    .category-ico{
+      position: absolute;
+      z-index: 5;
+      right: 0;
+      top: 1.944vw;
+      padding: 1.389vw 2.778vw;
+      background-color: white;
+    }
   }
 }
 

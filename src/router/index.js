@@ -7,6 +7,7 @@ import {Toast} from "vant";
 import Edit from "@/views/Edit";
 import Home from "@/views/Home";
 import Article from "@/views/Article";
+import EditCategory from "@/views/EditCategory";
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,10 @@ const routes = [
   {
     path: '/article/:id',
     component: Article,
+  },
+  {
+    path: '/editcategory',
+    component: EditCategory,
   }
 ]
 
